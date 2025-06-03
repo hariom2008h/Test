@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Premium Editing Resources | Preview & Download</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #4285F4;
+            --secondary-color: #34A853;
+            --accent-color: #EA4335;
+            --dark-color: #202124;
+            --light-color: #f8f9fa;
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: var(--light-color);
+            color: var(--dark-color);
+            line-height: 1.6;
+        }
+        
+        header {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 2rem 0;
+            text-align: center;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 20px;
+        }
+        
+        .resource-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 25px;
+            margin-top: 2rem;
+        }
+        
+        .resource-card {
+            background-color: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            overflow: hidden;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .resource-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.12);
+        }
+        
+        .preview-container {
+            position: relative;
+            height: 200px;
+            overflow: hidden;
+        }
+        
+        .preview-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s;
+        }
+        
+        .resource-card:hover .preview-image {
+            transform: scale(1.05);
+        }
+        
+        .preview-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.4);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        
+        .resource-card:hover .preview-overlay {
+            opacity: 1;
+        }
+        
+        .preview-btn {
+            background-color: rgba(255,255,255,0.9);
+            color: var(--primary-color);
+            border: none;
+            padding: 10px 20px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s;
+        }
+        
+        .preview-btn:hover {
+            background-color: white;
+            transform: scale(1.05);
+        }
+        
+        .resource-info {
+            padding: 20px;
+        }
+        
+        .resource-meta {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            font-size: 0.9rem;
+            color: #666;
+        }
+        
+        .resource-tag {
+            background-color: #e0e0e0;
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+        }
+        
+        .download-btn {
+            display: inline-block;
+            background-color: var(--primary-color);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: 600;
+            margin-top: 15px;
+            transition: all 0.3s;
+            width: 100%;
+            text-align: center;
+        }
+        
+        .download-btn:hover {
+            background-color: #3367d6;
+            box-shadow: 0 4px 12px rgba(66, 133, 244, 0.3);
+        }
+        
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.8);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .modal-content {
+            background-color: white;
+            border-radius: 12px;
+            width: 90%;
+            max-width: 900px;
+            max-height: 90vh;
+            overflow: auto;
+            position: relative;
+            animation: modalFadeIn 0.3s;
+        }
+        
+        @keyframes modalFadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .close-modal {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            font-size: 1.5rem;
+            color: #666;
+            cursor: pointer;
+            background: none;
+            border: none;
+            z-index: 10;
+        }
+        
+        .modal-preview {
+            width: 100%;
+            height: 500px;
+            border: none;
+        }
+        
+        footer {
+            background-color: var(--dark-color);
+            color: white;
+            text-align: center;
+            padding: 2rem 0;
+            margin-top: 3rem;
+        }
+        
+        @media (max-width: 768px) {
+            .resource-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .modal-content {
+                width: 95%;
+            }
+            
+            .modal-preview {
+                height: 300px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>Premium Editing Resources</h1>
+            <p>High-quality materials with preview before download</p>
+        </div>
+    </header>
+
+    <div class="container">
+        <h2>Featured Resources</h2>
+        
+        <div class="resource-grid">
+            <!-- Resource 1 -->
+            <div class="resource-card">
+                <div class="preview-container">
+                    <img src="https://via.placeholder.com/600x400?text=Transitions+Preview" alt="4K Transitions Preview" class="preview-image">
+                    <div class="preview-overlay">
+                        <button class="preview-btn" onclick="openModal('transition-preview')">
+                            <i class="fas fa-play"></i> Preview
+                        </button>
+                    </div>
+                </div>
+                <div class="resource-info">
+                    <div class="resource-meta">
+                        <span><i class="fas fa-file-archive"></i> 250 MB</span>
+                        <span class="resource-tag">Video Editing</span>
+                    </div>
+                    <h3>4K Cinematic Transitions Pack</h3>
+                    <p>50+ professional transitions for Premiere Pro and After Effects with customizable settings.</p>
+                    <a href="https://drive.google.com/your-drive-link-here" class="download-btn" target="_blank">
+                        <i class="fas fa-download"></i> Download Now
+                    </a>
+                </div>
+            </div>
+            
+            <!-- Resource 2 -->
+            <div class="resource-card">
+                <div class="preview-container">
+                    <img src="https://via.placeholder.com/600x400?text=Presets+Preview" alt="Lightroom Presets Preview" class="preview-image">
+                    <div class="preview-overlay">
+                        <button class="preview-btn" onclick="openModal('preset-preview')">
+                            <i class="fas fa-eye"></i> Preview
+                        </button>
+                    </div>
+                </div>
+                <div class="resource-info">
+                    <div class="resource-meta">
+                        <span><i class="fas fa-file-archive"></i> 15 MB</span>
+                        <span class="resource-tag">Photo Editing</span>
+                    </div>
+                    <h3>Professional Lightroom Presets</h3>
+                    <p>75 premium presets for portrait, landscape, and wedding photography with before/after examples.</p>
+                    <a href="https://drive.google.com/your-drive-link-here" class="download-btn" target="_blank">
+                        <i class="fas fa-download"></i> Download Now
+                    </a>
+                </div>
+            </div>
+            
+            <!-- Resource 3 -->
+            <div class="resource-card">
+                <div class="preview-container">
+                    <img src="https://via.placeholder.com/600x400?text=Sound+Effects+Preview" alt="SFX Preview" class="preview-image">
+                    <div class="preview-overlay">
+                        <button class="preview-btn" onclick="openModal('sfx-preview')">
+                            <i class="fas fa-volume-up"></i> Preview
+                        </button>
+                    </div>
+                </div>
+                <div class="resource-info">
+                    <div class="resource-meta">
+                        <span><i class="fas fa-file-archive"></i> 1.2 GB</span>
+                        <span class="resource-tag">Audio</span>
+                    </div>
+                    <h3>Ultimate Sound Effects Library</h3>
+                    <p>300+ high quality sound effects organized in categories for easy browsing and quick access.</p>
+                    <a href="https://drive.google.com/your-drive-link-here" class="download-btn" target="_blank">
+                        <i class="fas fa-download"></i> Download Now
+                    </a>
+                </div>
+            </div>
+            
+            <!-- Resource 4 -->
+            <div class="resource-card">
+                <div class="preview-container">
+                    <img src="https://via.placeholder.com/600x400?text=LUTs+Preview" alt="LUTs Preview" class="preview-image">
+                    <div class="preview-overlay">
+                        <button class="preview-btn" onclick="openModal('lut-preview')">
+                            <i class="fas fa-eye"></i> Preview
+                        </button>
+                    </div>
+                </div>
+                <div class="resource-info">
+                    <div class="resource-meta">
+                        <span><i class="fas fa-file-archive"></i> 8 MB</span>
+                        <span class="resource-tag">Color Grading</span>
+                    </div>
+                    <h3>Cinematic LUTs Collection</h3>
+                    <p>35 professionally crafted LUTs for video editors to achieve film looks in seconds.</p>
+                    <a href="https://drive.google.com/your-drive-link-here" class="download-btn" target="_blank">
+                        <i class="fas fa-download"></i> Download Now
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Preview Modals -->
+    <div id="transition-preview" class="modal">
+        <div class="modal-content">
+            <button class="close-modal" onclick="closeModal('transition-preview')">&times;</button>
+            <h3 style="padding: 20px 20px 0;">4K Cinematic Transitions Preview</h3>
+            <iframe class="modal-preview" src="https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1&mute=1" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            <div style="padding: 20px;">
+                <p>This pack includes 50+ professionally designed transitions with smooth animations and customizable settings. Perfect for cinematic videos, commercials, and social media content.</p>
+                <a href="https://drive.google.com/your-drive-link-here" class="download-btn" target="_blank" style="display: inline-block; width: auto; padding: 12px 30px;">
+                    <i class="fas fa-download"></i> Download Full Pack
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div id="preset-preview" class="modal">
+        <div class="modal-content">
+            <button class="close-modal" onclick="closeModal('preset-preview')">&times;</button>
+            <h3 style="padding: 20px 20px 0;">Lightroom Presets Preview</h3>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; padding: 20px;">
+                <div>
+                    <h4>Before</h4>
+                    <img src="https://via.placeholder.com/400x300?text=Before+Photo" alt="Before" style="width: 100%; border-radius: 8px;">
+                </div>
+                <div>
+                    <h4>After</h4>
+                    <img src="https://via.placeholder.com/400x300?text=After+Photo" alt="After" style="width: 100%; border-radius: 8px;">
+                </div>
+            </div>
+            <div style="padding: 20px;">
+                <p>Our presets work with Lightroom Classic, Lightroom CC, and Adobe Camera Raw. Each preset is carefully crafted to deliver professional results with one click.</p>
+                <a href="https://drive.google.com/your-drive-link-here" class="download-btn" target="_blank" style="display: inline-block; width: auto; padding: 12px 30px;">
+                    <i class="fas fa-download"></i> Download Preset Collection
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div id="sfx-preview" class="modal">
+        <div class="modal-content">
+            <button class="close-modal" onclick="closeModal('sfx-preview')">&times;</button>
+            <h3 style="padding: 20px 20px 0;">Sound Effects Preview</h3>
+            <div style="padding: 20px;">
+                <div style="background: #f5f5f5; padding: 15px; border-radius: 8px; margin-bottom: 20px;">
+                    <h4>Whoosh Sounds</h4>
+                    <audio controls style="width: 100%;">
+                        <source src="https://www.soundjay.com/buttons/sounds/button-09.mp3" type="audio/mpeg">
+                    </audio>
+                </div>
+                <div style="background: #f5f5f5; padding: 15px; border-radius: 8px; margin-bottom: 20px;">
+                    <h4>Impact Sounds</h4>
+                    <audio controls style="width: 100%;">
+                        <source src="https://www.soundjay.com/buttons/sounds/button-10.mp3" type="audio/mpeg">
+                    </audio>
+                </div>
+                <p>All sound effects are 100% royalty-free and can be used in commercial projects. Files are provided in WAV format for highest quality.</p>
+                <a href="https://drive.google.com/your-drive-link-here" class="download-btn" target="_blank" style="display: inline-block; width: auto; padding: 12px 30px;">
+                    <i class="fas fa-download"></i> Download Sound Library
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div id="lut-preview" class="modal">
+        <div class="modal-content">
+            <button class="close-modal" onclick="closeModal('lut-preview')">&times;</button>
+            <h3 style="padding: 20px 20px 0;">Cinematic LUTs Preview</h3>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; padding: 20px;">
+                <div>
+                    <h4>Original</h4>
+                    <img src="https://via.placeholder.com/400x300?text=Original+Footage" alt="Original" style="width: 100%; border-radius: 8px;">
+                </div>
+                <div>
+                    <h4>With LUT Applied</h4>
+                    <img src="https://via.placeholder.com/400x300?text=Graded+Footage" alt="Graded" style="width: 100%; border-radius: 8px;">
+                </div>
+            </div>
+            <div style="padding: 20px;">
+                <p>These LUTs work with Premiere Pro, DaVinci Resolve, Final Cut Pro, and most other video editing software. Includes documentation with recommended settings.</p>
+                <a href="https://drive.google.com/your-drive-link-here" class="download-btn" target="_blank" style="display: inline-block; width: auto; padding: 12px 30px;">
+                    <i class="fas fa-download"></i> Download LUT Collection
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2023 Premium Editing Resources. All rights reserved.</p>
+            <p>Contact: support@editingresources.com</p>
+        </div>
+    </footer>
+
+    <script>
+        // Modal functions
+        function openModal(modalId) {
+            document.getElementById(modalId).style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+        }
+        
+        function closeModal(modalId) {
+            document.getElementById(modalId).style.display = 'none';
+            document.body.style.overflow = 'auto';
+            
+            // Pause any videos or audio when closing modal
+            const mediaElements = document.querySelectorAll('#' + modalId + ' video, #' + modalId + ' audio');
+            mediaElements.forEach(media => {
+                media.pause();
+                media.currentTime = 0;
+            });
+        }
+        
+        // Close modal when clicking outside content
+        window.onclick = function(event) {
+            const modals = document.querySelectorAll('.modal');
+            modals.forEach(modal => {
+                if (event.target == modal) {
+                    closeModal(modal.id);
+                }
+            });
+        }
+    </script>
+</body>
+</html>
